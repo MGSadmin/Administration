@@ -34,6 +34,8 @@ class Patrimoine extends Model
         'fournisseur',
         'duree_garantie_mois',
         'date_fin_garantie',
+        'date_modification',
+        'sync_source',
     ];
 
     protected $casts = [
@@ -41,6 +43,8 @@ class Patrimoine extends Model
         'date_validation' => 'date',
         'date_attribution' => 'date',
         'date_fin_garantie' => 'date',
+        'date_modification' => 'datetime',
+        'last_synced_at' => 'datetime',
         'prix_achat' => 'decimal:2',
     ];
 
@@ -79,6 +83,11 @@ class Patrimoine extends Model
         return $query->where('categorie', $categorie);
     }
 
+    public function scopeNonSynces($query)
+    {
+        return $query->where('last_synced_at', '<', now()->subHour());
+    }
+
     /**
      * Accessors & Mutators
      */
@@ -109,6 +118,8 @@ class Patrimoine extends Model
             'utilisateur_id' => $utilisateur->id,
             'date_attribution' => now(),
             'statut' => 'en_utilisation',
+            'date_modification' => now(),
+            'sync_source' => 'web',
         ]);
         
         // Notifier l'ancien utilisateur que le matériel lui a été retiré
@@ -129,6 +140,8 @@ class Patrimoine extends Model
             'utilisateur_id' => null,
             'date_attribution' => null,
             'statut' => 'disponible',
+            'date_modification' => now(),
+            'sync_source' => 'web',
         ]);
         
         // Notifier l'utilisateur que le matériel lui a été retiré
@@ -139,12 +152,31 @@ class Patrimoine extends Model
 
     public function mettreEnMaintenance()
     {
-        $this->update(['statut' => 'en_maintenance']);
+        $this->update([
+            'statut' => 'en_maintenance',
+            'date_modification' => now(),
+            'sync_source' => 'web',
+        ]);
     }
 
     public function reformer()
     {
-        $this->update(['statut' => 'reforme']);
+        $this->update([
+            'statut' => 'reforme',
+            'date_modification' => now(),
+            'sync_source' => 'web',
+        ]);
+    }
+
+    /**
+     * Marquer comme synchronisé
+     */
+    public function markAsSynced($source = 'mobile')
+    {
+        $this->update([
+            'last_synced_at' => now(),
+            'sync_source' => $source,
+        ]);
     }
 
     /**
@@ -163,6 +195,20 @@ class Patrimoine extends Model
             if ($patrimoine->duree_garantie_mois && $patrimoine->date_achat) {
                 $patrimoine->date_fin_garantie = $patrimoine->date_achat->copy()->addMonths($patrimoine->duree_garantie_mois);
             }
+
+            // Initialiser date_modification
+            if (!$patrimoine->date_modification) {
+                $patrimoine->date_modification = now();
+            }
+
+            // Initialiser sync_source
+            if (!$patrimoine->sync_source) {
+                $patrimoine->sync_source = 'web';
+            }
+        });
+
+        static::updating(function ($patrimoine) {
+            $patrimoine->date_modification = now();
         });
     }
 
@@ -233,3 +279,4 @@ class Patrimoine extends Model
         ];
     }
 }
+

@@ -68,9 +68,18 @@ Toutes les applications partagent :
 - **Applications** : Toutes (lecture uniquement)
 - **Utilisation** : Consultation, reporting, auditeurs
 
-## Catégories de Permissions
 
-### Gestion-Dossier (30 permissions)
+## Permissions par Catégorie (visibilité par site)
+
+Chaque permission appartient à une catégorie et peut être marquée avec une visibilité par site. Cela permet de restreindre l'affichage ou l'application d'une permission à une application/portail spécifique. Exemple de valeurs de site : `administration`, `commercial`, `debours` (ou `gestion-dossier`).
+
+### Administration (site: `administration`)
+- **users** : view, create, edit, delete, active.view, status.manage
+- **roles** : view, create, edit, delete
+- **permissions** : view, create, delete
+- **system** : backup, logs, settings
+
+### Gestion-Dossier / Débours (site: `gestion-dossier` / `debours`)
 - **dossier** : view, create, edit, delete
 - **facture** : view, create, edit, delete
 - **reglement** : view, create, edit, delete
@@ -79,16 +88,10 @@ Toutes les applications partagent :
 - **debours** : view, create, edit, delete, assign, validate
 - **production** : view
 
-### Commercial (9 permissions)
+### Commercial (site: `commercial`)
 - **devis** : view, create, edit, delete, validate
 - **client** : view, create, edit, delete
 - **commercial** : stats
-
-### Administration (15 permissions)
-- **users** : view, create, edit, delete, active.view, status.manage
-- **roles** : view, create, edit, delete
-- **permissions** : view, create, delete
-- **system** : backup, logs, settings
 
 ## Installation et Configuration
 

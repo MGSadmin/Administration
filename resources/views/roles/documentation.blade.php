@@ -37,6 +37,23 @@
         $permissions = \Spatie\Permission\Models\Permission::all()->groupBy(function($p) {
             return explode('.', $p->name)[0];
         });
+        // Mapping catégorie -> site (visibilité)
+        $siteMap = [
+            'users' => 'administration',
+            'roles' => 'administration',
+            'permissions' => 'administration',
+            'system' => 'administration',
+            'dossier' => 'gestion-dossier',
+            'facture' => 'gestion-dossier',
+            'reglement' => 'gestion-dossier',
+            'cotation' => 'gestion-dossier',
+            'situation' => 'gestion-dossier',
+            'debours' => 'debours',
+            'production' => 'gestion-dossier',
+            'devis' => 'commercial',
+            'client' => 'commercial',
+            'commercial' => 'commercial',
+        ];
     @endphp
 
     <!-- Description des rôles -->
@@ -121,10 +138,11 @@
                     <div class="col-md-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header bg-light">
-                                <h6 class="mb-0 text-primary">
-                                    <i class="fas fa-tag"></i> {{ ucfirst($category) }}
-                                    <span class="badge bg-secondary float-end">{{ $perms->count() }}</span>
-                                </h6>
+                                    <h6 class="mb-0 text-primary">
+                                        <i class="fas fa-tag"></i> {{ ucfirst($category) }}
+                                        <span class="badge bg-light text-dark ms-2">{{ $siteMap[$category] ?? 'toutes' }}</span>
+                                        <span class="badge bg-secondary float-end">{{ $perms->count() }}</span>
+                                    </h6>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex flex-wrap gap-2">
@@ -151,7 +169,8 @@
             </div>
             
             @foreach($permissions as $category => $perms)
-                <h6 class="mt-4 text-primary"><i class="fas fa-folder"></i> {{ ucfirst($category) }}</h6>
+                @php $site = $siteMap[$category] ?? 'toutes'; @endphp
+                <h6 class="mt-4 text-primary"><i class="fas fa-folder"></i> {{ ucfirst($category) }} <span class="badge bg-light text-dark ms-2">{{ $site }}</span></h6>
                 <div class="table-responsive">
                     <table class="table table-bordered table-sm">
                         <thead class="table-light">
