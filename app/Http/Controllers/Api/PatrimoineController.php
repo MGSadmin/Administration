@@ -31,16 +31,10 @@ class PatrimoineController extends Controller
         }
 
         $patrimoines = $query->with(['utilisateur', 'validateur'])
-            ->paginate($request->per_page ?? 50);
+            ->get();
 
         return response()->json([
-            'data' => $patrimoines->items(),
-            'pagination' => [
-                'total' => $patrimoines->total(),
-                'per_page' => $patrimoines->perPage(),
-                'current_page' => $patrimoines->currentPage(),
-                'last_page' => $patrimoines->lastPage(),
-            ],
+            'data' => $patrimoines,
         ]);
     }
 
