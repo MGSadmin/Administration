@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PatrimoineController;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 Route::middleware('auth:sanctum')->group(function () {
     // Patrimoines
@@ -19,22 +21,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Routes publiques pour authentification
 Route::post('login', function (Request $request) {
-    $credentials = $request->validate([
+    $data = $request->validate([
         'email' => 'required|email',
         'password' => 'required',
     ]);
 
-    if (auth()->attempt($credentials)) {
-        $user = auth()->user();
-        $token = $user->createToken('api-token')->plainTextToken;
-        
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+    $user = User::where('email', $data['email'])->first();
+
+    if (! $user || ! Hash::check($data['password'], $user->password)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
-    return response()->json(['message' => 'Invalid credentials'], 401);
+    $token = $user->createToken('api-token')->plainTextToken;
+
+    return response()->json([
+        'user' => $user,
+        'token' => $token,
+    ]);
 });
 
 Route::middleware('auth:sanctum')->post('logout', function (Request $request) {
