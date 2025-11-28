@@ -27,6 +27,11 @@ Route::post('/login', function (Request $request) {
     ]);
 });
 
+// Endpoint de test
+Route::get('/test', function () {
+    return response()->json(['message' => 'API working']);
+});
+
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json(['message' => 'Logged out']);
@@ -34,7 +39,7 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     // Patrimoines
-    Route::apiResource('patrimoines', PatrimoineController::class);
+    Route::apiResource('patrimoines', PatrimoineController::class, ['names' => 'api.patrimoines']);
     
     // Actions spéciales sur patrimoines
     Route::post('patrimoines/{patrimoine}/photos', [PatrimoineController::class, 'uploadPhoto']);

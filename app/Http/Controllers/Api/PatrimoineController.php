@@ -30,8 +30,7 @@ class PatrimoineController extends Controller
             $query->where('utilisateur_id', $request->utilisateur_id);
         }
 
-        $patrimoines = $query->with(['utilisateur', 'validateur'])
-            ->get();
+        $patrimoines = $query->get();
 
         return response()->json([
             'data' => $patrimoines,
