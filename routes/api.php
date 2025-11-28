@@ -39,13 +39,19 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     // Patrimoines
-    Route::apiResource('patrimoines', PatrimoineController::class, ['names' => 'api.patrimoines']);
+    Route::apiResource('patrimoines', PatrimoineController::class)->names([
+        'index' => 'api.patrimoines.index',
+        'show' => 'api.patrimoines.show',
+        'store' => 'api.patrimoines.store',
+        'update' => 'api.patrimoines.update',
+        'destroy' => 'api.patrimoines.destroy',
+    ]);
     
     // Actions spéciales sur patrimoines
-    Route::post('patrimoines/{patrimoine}/photos', [PatrimoineController::class, 'uploadPhoto']);
-    Route::get('patrimoines/{patrimoine}/photos', [PatrimoineController::class, 'getPhotos']);
-    Route::post('patrimoines/{patrimoine}/attribuer', [PatrimoineController::class, 'attribuer']);
-    Route::post('patrimoines/{patrimoine}/liberer', [PatrimoineController::class, 'liberer']);
-    Route::post('patrimoines/{patrimoine}/maintenance', [PatrimoineController::class, 'mettreEnMaintenance']);
-    Route::post('patrimoines/{patrimoine}/reformer', [PatrimoineController::class, 'reformer']);
+    Route::post('patrimoines/{patrimoine}/photos', [PatrimoineController::class, 'uploadPhoto'])->name('api.patrimoines.uploadPhoto');
+    Route::get('patrimoines/{patrimoine}/photos', [PatrimoineController::class, 'getPhotos'])->name('api.patrimoines.getPhotos');
+    Route::post('patrimoines/{patrimoine}/attribuer', [PatrimoineController::class, 'attribuer'])->name('api.patrimoines.attribuer');
+    Route::post('patrimoines/{patrimoine}/liberer', [PatrimoineController::class, 'liberer'])->name('api.patrimoines.liberer');
+    Route::post('patrimoines/{patrimoine}/maintenance', [PatrimoineController::class, 'mettreEnMaintenance'])->name('api.patrimoines.mettreEnMaintenance');
+    Route::post('patrimoines/{patrimoine}/reformer', [PatrimoineController::class, 'reformer'])->name('api.patrimoines.reformer');
 });
