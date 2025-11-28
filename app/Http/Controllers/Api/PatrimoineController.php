@@ -71,6 +71,10 @@ class PatrimoineController extends Controller
             'duree_garantie_mois' => 'nullable|integer|min:0',
         ]);
 
+        // Ajouter une valeur par défaut pour date_achat si non fournie
+        if (empty($validated['date_achat'])) {
+            $validated['date_achat'] = now()->toDateString();
+        }
         $patrimoine = Patrimoine::create($validated);
 
         return response()->json($patrimoine->load(['utilisateur', 'validateur']), 201);
