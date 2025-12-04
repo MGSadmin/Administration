@@ -24,7 +24,7 @@ APP_KEY=base64:4h1KyrT9SPyovQVBOv4k+Ko1Qg/e++0K38850z2kDU4=
 SESSION_DRIVER=database
 SESSION_CONNECTION=administration
 SESSION_COOKIE=mgs_session
-SESSION_DOMAIN=.mgs-local.mg
+SESSION_DOMAIN=.mgs.mg
 SESSION_LIFETIME=120
 
 # Base de données administration (pour les sessions)
@@ -70,7 +70,7 @@ DB_PASSWORD_ADMINISTRATION=
 1. **Utilisateur non connecté accède à gestion-dossier**:
    - Le middleware `CheckApplicationAccess` détecte l'absence de session
    - Sauvegarde l'URL demandée dans `session()->put('url.intended')`
-   - Redirige vers `http://administration.mgs-local.mg/login`
+   - Redirige vers `http://administration.mgs.mg/login`
 
 2. **Connexion sur administration**:
    - L'utilisateur se connecte
@@ -80,7 +80,7 @@ DB_PASSWORD_ADMINISTRATION=
 
 3. **Session partagée**:
    - La session est stockée dans `mgs_administration.sessions`
-   - Cookie: `mgs_session` valide sur `.mgs-local.mg`
+   - Cookie: `mgs_session` valide sur `.mgs.mg`
    - Toutes les sous-domaines peuvent lire cette session
 
 ## 🔔 Système de Notifications
@@ -225,7 +225,7 @@ APP_KEY=base64:4h1KyrT9SPyovQVBOv4k+Ko1Qg/e++0K38850z2kDU4=
 SESSION_DRIVER=database
 SESSION_CONNECTION=administration
 SESSION_COOKIE=mgs_session
-SESSION_DOMAIN=.mgs-local.mg
+SESSION_DOMAIN=.mgs.mg
 ```
 
 ### Étape 2: Fichiers à copier
@@ -350,7 +350,7 @@ $byType = auth()->user()->notifications()
 ### Bonnes pratiques
 
 1. **APP_KEY**: Ne JAMAIS modifier l'APP_KEY après la mise en production
-2. **SESSION_DOMAIN**: Utiliser un point devant le domaine (`.mgs-local.mg`)
+2. **SESSION_DOMAIN**: Utiliser un point devant le domaine (`.mgs.mg`)
 3. **HTTPS**: En production, forcer HTTPS pour toutes les applications
 4. **CSRF**: Toujours inclure `@csrf` dans les formulaires
 5. **Sanitization**: Les notifications sont automatiquement échappées par Blade

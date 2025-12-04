@@ -149,7 +149,7 @@
                                     Gestion complète des dossiers de transit, débours, cotations et factures.
                                 </p>
                                 <div class="d-grid">
-                                    <a href="http://gestion-dossier.mgs-local.mg" target="_blank" class="btn btn-warning">
+                                    <a href="http://gestion-dossier.mgs.mg" target="_blank" class="btn btn-warning">
                                         <i class="fas fa-external-link-alt"></i> Accéder
                                     </a>
                                 </div>
@@ -175,7 +175,7 @@
                                     Gestion des devis commerciaux, suivi clients et statistiques de vente.
                                 </p>
                                 <div class="d-grid">
-                                    <a href="http://commercial.mgs-local.mg" target="_blank" class="btn btn-success">
+                                    <a href="http://commercial.mgs.mg" target="_blank" class="btn btn-success">
                                         <i class="fas fa-external-link-alt"></i> Accéder
                                     </a>
                                 </div>

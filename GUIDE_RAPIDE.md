@@ -3,11 +3,11 @@
 ## 🚀 Accès rapide
 
 ### Connexion
-- **URL**: http://administration.mgs-local.mg/login
+- **URL**: http://administration.mgs.mg/login
 - **Compte admin**: admin@mgs.mg / Admin@2025
 
 ### Créer un compte
-- **URL**: http://administration.mgs-local.mg/register
+- **URL**: http://administration.mgs.mg/register
 - Remplir le formulaire avec vos informations
 
 ## ✅ Modifications effectuées
@@ -74,7 +74,7 @@ exit
 ```
 
 Puis:
-1. Aller sur http://administration.mgs-local.mg/dashboard
+1. Aller sur http://administration.mgs.mg/dashboard
 2. Cliquer sur l'icône 🔔 dans la navbar
 3. Voir la notification apparaître
 
@@ -89,7 +89,7 @@ Puis:
 
 ### Tester la création de compte
 
-1. Aller sur http://administration.mgs-local.mg/register
+1. Aller sur http://administration.mgs.mg/register
 2. Remplir tous les champs
 3. Taper un mot de passe et observer la barre de force
 4. Soumettre le formulaire
@@ -204,7 +204,7 @@ Et dans `config/session.php`:
 Vérifier que les 3 applications ont:
 1. Le même `APP_KEY`
 2. Le même `SESSION_COOKIE`
-3. Le même `SESSION_DOMAIN` (avec le point: `.mgs-local.mg`)
+3. Le même `SESSION_DOMAIN` (avec le point: `.mgs.mg`)
 
 ## 📚 Documentation complète
 

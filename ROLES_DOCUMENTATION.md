@@ -16,7 +16,7 @@ Toutes les applications partagent :
 - La même base de données de sessions (`mgs_administration`)
 - La même clé d'application (`APP_KEY`)
 - Le même cookie de session (`mgs_session`)
-- Le même domaine (`.mgs-local.mg`)
+- Le même domaine (`.mgs.mg`)
 
 ## Rôles Disponibles
 
@@ -107,7 +107,7 @@ php artisan db:seed --class=RolesAndPermissionsSeeder
 
 ```bash
 # Via l'interface web
-http://administration.mgs-local.mg/users/create
+http://administration.mgs.mg/users/create
 
 # Ou via tinker
 php artisan tinker
@@ -170,9 +170,9 @@ Route::get('/admin', [AdminController::class, 'index'])
 
 ## Flux d'Authentification Multi-Application
 
-1. Utilisateur accède à `gestion-dossier.mgs-local.mg`
+1. Utilisateur accède à `gestion-dossier.mgs.mg`
 2. Middleware `CheckApplicationAccess` vérifie l'authentification
-3. Si non connecté → Redirection vers `administration.mgs-local.mg/login`
+3. Si non connecté → Redirection vers `administration.mgs.mg/login`
 4. Utilisateur se connecte dans Administration
 5. Après login → Redirection automatique vers l'URL d'origine (gestion-dossier)
 6. Middleware vérifie l'accès à l'application via `UserApplication`
@@ -224,6 +224,6 @@ Après avoir exécuté le seeder :
 ## Support
 
 Pour toute question ou problème, consultez :
-- Documentation en ligne : `http://administration.mgs-local.mg/roles-documentation`
+- Documentation en ligne : `http://administration.mgs.mg/roles-documentation`
 - Logs : `/var/www/administration/storage/logs/`
 - Base de données : `mgs_administration`

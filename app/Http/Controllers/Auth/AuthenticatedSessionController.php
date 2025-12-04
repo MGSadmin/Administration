@@ -24,11 +24,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Récupérer l'URL intended AVANT l'authentification
+        // Récupérer l'URL redirect depuis le paramètre de query
+        $redirectUrl = $request->query('redirect');
+        
+        // Récupérer l'URL intended depuis la session
         $intendedUrl = $request->session()->get('url.intended');
         
         // Log pour debug
         \Log::info('Login attempt', [
+            'redirect_param' => $redirectUrl,
             'intended_url' => $intendedUrl,
             'session_id' => $request->session()->getId()
         ]);
@@ -37,10 +41,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Vérifier s'il y a une URL de redirection vers une autre application
+        // Priorité 1 : redirection depuis le paramètre query redirect (venant d'une autre app)
+        if ($redirectUrl && (
+            str_contains($redirectUrl, 'gestion-dossier.mgs.mg') || 
+            str_contains($redirectUrl, 'commercial.mgs.mg')
+        )) {
+            \Log::info('Redirecting to redirect param', ['url' => $redirectUrl]);
+            return redirect()->away($redirectUrl);
+        }
+
+        // Priorité 2 : Vérifier s'il y a une URL de redirection vers une autre application dans intended
         if ($intendedUrl && (
-            str_contains($intendedUrl, 'gestion-dossier.mgs-local.mg') || 
-            str_contains($intendedUrl, 'commercial.mgs-local.mg')
+            str_contains($intendedUrl, 'gestion-dossier.mgs.mg') || 
+            str_contains($intendedUrl, 'commercial.mgs.mg')
         )) {
             \Log::info('Redirecting to intended URL', ['url' => $intendedUrl]);
             return redirect()->away($intendedUrl);
