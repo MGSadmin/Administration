@@ -45,7 +45,7 @@ return [
     */
 
     // Get URL for any app
-    'app_url' => function ($app) {
+    /*'app_url' => function ($app) {
         return config("app_urls.apps.{$app}.url");
     },
 
@@ -57,5 +57,5 @@ return [
     // Get logout URL for any app
     'logout_url' => function ($app) {
         return config("app_urls.apps.{$app}.logout");
-    },
+    },*/
 ];
