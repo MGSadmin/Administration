@@ -260,10 +260,10 @@
                         <i class="fas fa-th"></i> Applications
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="http://gestion-dossier.mgs.mg" target="_blank">
+                        <li><a class="dropdown-item" href="{{ \App\Helpers\AppUrlHelper::appUrl('gestion-dossier') }}" target="_blank">
                             <i class="fas fa-folder-open text-primary"></i> Gestion Dossiers
                         </a></li>
-                        <li><a class="dropdown-item" href="http://commercial.mgs.mg" target="_blank">
+                        <li><a class="dropdown-item" href="{{ \App\Helpers\AppUrlHelper::appUrl('commercial') }}" target="_blank">
                             <i class="fas fa-chart-line text-success"></i> Commercial
                         </a></li>
                     </ul>

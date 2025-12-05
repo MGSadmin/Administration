@@ -106,7 +106,7 @@ Copier les fichiers de `/home/tlt/Documents/Inventory/app_inventaire/lib/`:
 ### 3. Configuration de l'URL API
 Modifier `lib/services/api_service.dart`:
 ```dart
-static const String baseUrl = 'http://administration.mgs.mg/api';
+static const String baseUrl = 'http://administration.mgs-local.mg/api';
 // En prod: 'https://administration.example.com/api'
 ```
 
@@ -295,7 +295,7 @@ php artisan storage:link
 # Vérifier firewall/réseau
 
 # Test connexion:
-curl -X GET http://administration.mgs.mg/api/patrimoines \
+curl -X GET http://administration.mgs-local.mg/api/patrimoines \
   -H "Authorization: Bearer {token}"
 ```
 
@@ -337,7 +337,7 @@ sudo certbot certonly --standalone -d administration.example.com
 
 Pour les problèmes:
 1. Vérifier les logs: `tail -f storage/logs/laravel.log`
-2. Vérifier la connectivité: `ping administration.mgs.mg`
+2. Vérifier la connectivité: `ping administration.mgs-local.mg`
 3. Vérifier le token: `flutter run --verbose`
 4. Tester API directement: `curl ...`
 

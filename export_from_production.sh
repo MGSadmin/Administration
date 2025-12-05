@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script d'export des utilisateurs depuis le serveur de production
-# À exécuter sur le serveur distant (debours.mgs.mg)
+# À exécuter sur le serveur distant (debours.mgs-local.mg)
 
 echo "🔍 Export des utilisateurs depuis le serveur de production"
 echo "=========================================================="

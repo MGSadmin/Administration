@@ -242,7 +242,7 @@
                                        value="{{ old('email') }}" 
                                        required 
                                        autocomplete="username"
-                                       placeholder="exemple@mgs.mg">
+                                       placeholder="exemple@mgs-local.mg">
                             </div>
                             @error('email')
                                 <div class="text-danger small mt-1">{{ $message }}</div>

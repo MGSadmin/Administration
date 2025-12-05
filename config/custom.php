@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'api_url' => env('CUSTOM_API_URL', 'https://administration.mgs.mg/api'),
-    'frontend_url' => env('CUSTOM_FRONTEND_URL', 'https://administration.mgs.mg'),
-    'mobile_url' => env('CUSTOM_MOBILE_URL', 'https://administration.mgs.mg'),
+    'api_url' => env('CUSTOM_API_URL', 'https://administration.mgs-local.mg/api'),
+    'frontend_url' => env('CUSTOM_FRONTEND_URL', 'https://administration.mgs-local.mg'),
+    'mobile_url' => env('CUSTOM_MOBILE_URL', 'https://administration.mgs-local.mg'),
 ];

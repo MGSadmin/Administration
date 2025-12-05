@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Helpers\AppUrlHelper;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -42,21 +43,27 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // Priorité 1 : redirection depuis le paramètre query redirect (venant d'une autre app)
-        if ($redirectUrl && (
-            str_contains($redirectUrl, 'gestion-dossier.mgs.mg') || 
-            str_contains($redirectUrl, 'commercial.mgs.mg')
-        )) {
-            \Log::info('Redirecting to redirect param', ['url' => $redirectUrl]);
-            return redirect()->away($redirectUrl);
+        if ($redirectUrl) {
+            $otherApps = ['gestion-dossier', 'commercial'];
+            foreach ($otherApps as $appName) {
+                $appHost = parse_url(AppUrlHelper::appUrl($appName) ?? '', PHP_URL_HOST);
+                if ($appHost && str_contains($redirectUrl, $appHost)) {
+                    \Log::info('Redirecting to redirect param', ['url' => $redirectUrl]);
+                    return redirect()->away($redirectUrl);
+                }
+            }
         }
 
         // Priorité 2 : Vérifier s'il y a une URL de redirection vers une autre application dans intended
-        if ($intendedUrl && (
-            str_contains($intendedUrl, 'gestion-dossier.mgs.mg') || 
-            str_contains($intendedUrl, 'commercial.mgs.mg')
-        )) {
-            \Log::info('Redirecting to intended URL', ['url' => $intendedUrl]);
-            return redirect()->away($intendedUrl);
+        if ($intendedUrl) {
+            $otherApps = ['gestion-dossier', 'commercial'];
+            foreach ($otherApps as $appName) {
+                $appHost = parse_url(AppUrlHelper::appUrl($appName) ?? '', PHP_URL_HOST);
+                if ($appHost && str_contains($intendedUrl, $appHost)) {
+                    \Log::info('Redirecting to intended URL', ['url' => $intendedUrl]);
+                    return redirect()->away($intendedUrl);
+                }
+            }
         }
 
         \Log::info('Redirecting to dashboard');

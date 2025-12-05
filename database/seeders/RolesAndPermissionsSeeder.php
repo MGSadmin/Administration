@@ -227,12 +227,12 @@ class RolesAndPermissionsSeeder extends Seeder
         $this->command->info('✓ Rôle consultation créé');
 
         // Créer un utilisateur super-admin si aucun n'existe
-        if (!User::where('email', 'admin@mgs.mg')->exists()) {
+        if (!User::where('email', 'admin@mgs-local.mg')->exists()) {
             $superAdminUser = User::create([
                 'name' => 'Admin',
                 'prenom' => 'Système',
                 'matricule' => 'ADM001',
-                'email' => 'admin@mgs.mg',
+                'email' => 'admin@mgs-local.mg',
                 'password' => Hash::make('Admin@2025'),
                 'telephone' => '+261 34 00 000 00',
                 'poste' => 'Administrateur Système',
@@ -265,7 +265,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'status' => 'active',
             ]);
 
-            $this->command->info('✓ Super Admin créé - Email: admin@mgs.mg / Password: Admin@2025');
+            $this->command->info('✓ Super Admin créé - Email: admin@mgs-local.mg / Password: Admin@2025');
         }
 
         $this->command->info('');

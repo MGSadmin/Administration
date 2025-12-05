@@ -3,9 +3,9 @@
 ## 📦 Résumé de la configuration
 
 Vous avez 3 applications Laravel qui partagent l'authentification :
-- **administration.mgs.mg** → Base centrale des utilisateurs
-- **debours.mgs.mg** → Gestion des dossiers (déjà en ligne)
-- **commercial.mgs.mg** → Application commerciale
+- **administration.mgs-local.mg** → Base centrale des utilisateurs
+- **debours.mgs-local.mg** → Gestion des dossiers (déjà en ligne)
+- **commercial.mgs-local.mg** → Application commerciale
 
 ---
 
@@ -105,14 +105,14 @@ nano .env
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://administration.mgs.mg
+APP_URL=https://administration.mgs-local.mg
 
 DB_HOST=localhost
 DB_DATABASE=VOTRE_CPANEL_USER_mgs_administration
 DB_USERNAME=VOTRE_CPANEL_USER_mgs_dbuser
 DB_PASSWORD=VOTRE_MOT_DE_PASSE
 
-SESSION_DOMAIN=.mgs.mg
+SESSION_DOMAIN=.mgs-local.mg
 ```
 
 ```bash
@@ -134,7 +134,7 @@ chmod -R 775 storage bootstrap/cache
 ### 5.3 Configurer le sous-domaine
 
 1. **cPanel → Domains**
-2. Créer/Modifier `administration.mgs.mg`
+2. Créer/Modifier `administration.mgs-local.mg`
 3. **Document Root** : `/home/VOTRE_USER/administration/public`
 
 ---
@@ -166,7 +166,7 @@ chmod -R 775 storage bootstrap/cache
 
 ```env
 APP_ENV=production
-APP_URL=https://commercial.mgs.mg
+APP_URL=https://commercial.mgs-local.mg
 
 # Base de données commercial
 DB_DATABASE=VOTRE_CPANEL_USER_commercial
@@ -179,7 +179,7 @@ DB_ADMIN_DATABASE=VOTRE_CPANEL_USER_mgs_administration
 DB_ADMIN_USERNAME=VOTRE_CPANEL_USER_mgs_dbuser
 DB_ADMIN_PASSWORD=VOTRE_MOT_DE_PASSE
 
-SESSION_DOMAIN=.mgs.mg
+SESSION_DOMAIN=.mgs-local.mg
 SESSION_CONNECTION=administration
 ```
 
@@ -219,7 +219,7 @@ DB_ADMIN_DATABASE=VOTRE_CPANEL_USER_mgs_administration
 DB_ADMIN_USERNAME=VOTRE_CPANEL_USER_mgs_dbuser
 DB_ADMIN_PASSWORD=VOTRE_MOT_DE_PASSE
 
-SESSION_DOMAIN=.mgs.mg
+SESSION_DOMAIN=.mgs-local.mg
 SESSION_CONNECTION=administration
 ```
 
@@ -229,9 +229,9 @@ SESSION_CONNECTION=administration
 
 1. **cPanel → SSL/TLS Status**
 2. Activer **AutoSSL** pour :
-   - administration.mgs.mg
-   - commercial.mgs.mg
-   - debours.mgs.mg
+   - administration.mgs-local.mg
+   - commercial.mgs-local.mg
+   - debours.mgs-local.mg
 
 ---
 
@@ -239,10 +239,10 @@ SESSION_CONNECTION=administration
 
 ### Test 1 : SSO (Single Sign-On)
 
-1. Ouvrir `https://administration.mgs.mg`
+1. Ouvrir `https://administration.mgs-local.mg`
 2. Se connecter avec un compte utilisateur
-3. Ouvrir `https://debours.mgs.mg` → Doit être connecté automatiquement
-4. Ouvrir `https://commercial.mgs.mg` → Doit être connecté automatiquement
+3. Ouvrir `https://debours.mgs-local.mg` → Doit être connecté automatiquement
+4. Ouvrir `https://commercial.mgs-local.mg` → Doit être connecté automatiquement
 
 ### Test 2 : Permissions fichiers
 
@@ -292,7 +292,7 @@ php artisan view:cache
 ## 🆘 DÉPANNAGE
 
 ### Erreur "Session not found"
-- Vérifier que `SESSION_DOMAIN=.mgs.mg` est identique partout
+- Vérifier que `SESSION_DOMAIN=.mgs-local.mg` est identique partout
 - Vérifier que `SESSION_CONNECTION=administration` pointe vers mgs_administration
 
 ### Erreur "Permission denied" sur storage

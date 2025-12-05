@@ -15,7 +15,7 @@ git init
 # 2. Configuration Git
 echo "⚙️  Configuration Git..."
 git config user.name "MGS Admin"
-git config user.email "admin@mgs.mg"
+git config user.email "admin@mgs-local.mg"
 
 # 3. Créer la branche main
 echo "🌿 Création de la branche main..."

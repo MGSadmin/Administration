@@ -109,7 +109,7 @@
 
 ### 8. Améliorations Appliquées
 
-✅ APP_URL corrigé: `http://administration.mgs.mg`
+✅ APP_URL corrigé: `http://administration.mgs-local.mg`
 ✅ Notifications pointent vers le bon domaine
 ✅ Refresh du statut avant suppression
 ✅ Table fournisseurs avec autocomplete
@@ -150,7 +150,7 @@
 
 ```bash
 # 1. Créer une demande de fourniture
-# - Aller sur http://administration.mgs.mg/demandes-fourniture/create
+# - Aller sur http://administration.mgs-local.mg/demandes-fourniture/create
 # - Remplir TOUS les champs incluant "designation"
 # - Soumettre
 
