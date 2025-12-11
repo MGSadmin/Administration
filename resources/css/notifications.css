@@ -1,0 +1,234 @@
+/**
+ * ============================================================================
+ * STYLES DES NOTIFICATIONS TEMPS RÉEL
+ * ============================================================================
+ */
+
+/* Container des notifications toast */
+.notification-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+/* Notification toast */
+.notification-toast {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    animation: slideIn 0.3s ease-out;
+    border-left: 4px solid #3b82f6;
+}
+
+/* Types de notifications */
+.notification-toast.notification-success {
+    border-left-color: #10b981;
+}
+
+.notification-toast.notification-info {
+    border-left-color: #3b82f6;
+}
+
+.notification-toast.notification-warning {
+    border-left-color: #f59e0b;
+}
+
+.notification-toast.notification-error {
+    border-left-color: #ef4444;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.notification-content p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.notification-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.notification-link:hover {
+    text-decoration: underline;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.notification-close:hover {
+    color: #4b5563;
+}
+
+/* Animation d'entrée */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Animation de sortie */
+.notification-toast.fade-out {
+    animation: slideOut 0.3s ease-out forwards;
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Badge de notification */
+#notification-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* Icône de cloche avec notification */
+.notification-bell {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.notification-bell:hover {
+    transform: scale(1.1);
+}
+
+.notification-bell.has-notifications {
+    animation: ring 2s ease-in-out infinite;
+}
+
+@keyframes ring {
+    0%, 100% { transform: rotate(0deg); }
+    5%, 15% { transform: rotate(-15deg); }
+    10%, 20% { transform: rotate(15deg); }
+}
+
+/* Liste déroulante de notifications */
+.notification-dropdown-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: start;
+    gap: 12px;
+    transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+    background-color: #f9fafb;
+}
+
+.notification-item.unread {
+    background-color: #eff6ff;
+}
+
+.notification-item.unread::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #3b82f6;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.notification-item .notification-body strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+.notification-item .notification-body p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 4px 0;
+}
+
+.notification-item .notification-body small {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.notification-item a {
+    font-size: 13px;
+    color: #3b82f6;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.notification-item a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .notification-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+    
+    .notification-toast {
+        width: 100%;
+    }
+}

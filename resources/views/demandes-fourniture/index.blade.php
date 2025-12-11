@@ -62,7 +62,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @if(Auth::user()->can('voir_toutes_demandes_fourniture'))
+                    @if(Auth::check() && (Auth::user()->hasRole(['Super Admin', 'Administrateur', 'Manager Commercial', 'Gestionnaire Débours']) || Auth::user()->can('admin.manage_demandes')))
                     <div class="col-md-2">
                         <select name="demandeur_id" class="form-select">
                             <option value="">Tous demandeurs</option>
@@ -142,12 +142,12 @@
                                     <a href="{{ route('demandes-fourniture.show', $demande) }}" class="btn btn-sm btn-info" title="Voir">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    @if(in_array($demande->statut, ['en_attente', 'rejetee']) && ($demande->demandeur_id == Auth::id() || Auth::user()->hasAnyRole(['administrateur', 'admin', 'direction', 'rh'])))
+                                    @if(Auth::check() && in_array($demande->statut, ['en_attente', 'rejetee']) && ($demande->demandeur_id == Auth::id() || Auth::user()->hasRole(['Super Admin', 'Administrateur', 'Manager Commercial', 'Gestionnaire Débours'])))
                                         <a href="{{ route('demandes-fourniture.edit', $demande) }}" class="btn btn-sm btn-warning" title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     @endif
-                                    @if($demande->statut == 'en_attente' && ($demande->demandeur_id == Auth::id() || Auth::user()->hasAnyRole(['administrateur', 'admin', 'direction', 'rh'])))
+                                    @if(Auth::check() && $demande->statut == 'en_attente' && ($demande->demandeur_id == Auth::id() || Auth::user()->hasRole(['Super Admin', 'Administrateur', 'Manager Commercial', 'Gestionnaire Débours'])))
                                         <form action="{{ route('demandes-fourniture.destroy', $demande) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')">
                                             @csrf
                                             @method('DELETE')

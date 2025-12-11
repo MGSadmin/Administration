@@ -7,64 +7,124 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
-        'prenom',
-        'matricule',
         'email',
         'password',
-        'telephone',
-        'poste',
-        'departement',
-        'date_embauche',
-        'photo',
-        'is_active',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'date_embauche' => 'date',
-            'last_login_at' => 'datetime',
-            'is_active' => 'boolean',
         ];
     }
 
-    // Relations
-    public function applications()
+    /**
+     * Vérifie si l'utilisateur a accès à un site spécifique
+     */
+    public function hasAccessToSite(string $siteCode): bool
     {
-        return $this->hasMany(UserApplication::class);
+        return $this->getAllPermissions()
+            ->filter(fn($p) => str_starts_with($p->name, $siteCode . '.'))
+            ->isNotEmpty();
     }
 
-    // Scopes
-    public function scopeActive($query)
+    /**
+     * Récupère tous les sites accessibles par l'utilisateur
+     */
+    public function getAccessibleSites()
     {
-        return $query->where('is_active', true);
+        $sites = Site::where('is_active', true)->get();
+        
+        return $sites->filter(function($site) {
+            return $this->hasAccessToSite($site->code);
+        });
     }
 
-    // Helpers
-    public function hasAccessToApplication(string $application): bool
+    /**
+     * Récupère les permissions pour un site spécifique
+     */
+    public function getPermissionsForSite(string $siteCode)
     {
-        return $this->applications()
-            ->where('application', $application)
-            ->where('status', 'active')
-            ->exists();
+        return $this->getAllPermissions()
+            ->filter(fn($p) => str_starts_with($p->name, $siteCode . '.'))
+            ->pluck('name');
     }
 
-    public function getFullNameAttribute(): string
+    /**
+     * Relation avec le membre de l'organisation
+     */
+    public function organizationMember()
     {
-        return trim("{$this->name} {$this->prenom}");
+        return $this->hasOne(OrganizationMember::class, 'user_id');
+    }
+
+    /**
+     * Relation avec les patrimoines dont l'utilisateur est responsable
+     */
+    public function patrimoines()
+    {
+        return $this->hasMany(Patrimoine::class, 'utilisateur_id');
+    }
+
+    /**
+     * Relation avec les demandes de fourniture créées
+     */
+    public function demandesFourniture()
+    {
+        return $this->hasMany(DemandeFourniture::class, 'demandeur_id');
+    }
+
+    /**
+     * Vérifie si l'utilisateur est super admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('Super Admin');
+    }
+
+    /**
+     * Vérifie si l'utilisateur peut gérer les utilisateurs
+     */
+    public function canManageUsers(): bool
+    {
+        return $this->hasPermissionTo('admin.manage_users') || $this->isSuperAdmin();
+    }
+
+    /**
+     * Vérifie si l'utilisateur peut gérer les rôles
+     */
+    public function canManageRoles(): bool
+    {
+        return $this->hasPermissionTo('admin.manage_roles') || $this->isSuperAdmin();
     }
 }

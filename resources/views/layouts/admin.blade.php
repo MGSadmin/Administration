@@ -147,6 +147,7 @@
             </a>
             
             <div class="ms-auto d-flex align-items-center">
+                @auth
                 <!-- Notifications -->
                 <div class="dropdown me-3">
                     <button class="btn btn-link text-white position-relative" type="button" data-bs-toggle="dropdown" id="notificationDropdown">
@@ -279,19 +280,28 @@
                         </div>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        
-                            
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i> Mon Profil
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form method="POST" action="{{ route('logout') }}">
+                            <form method="POST" action="{{ route('auth.logout') }}">
                                 @csrf
                                 <button type="submit" class="dropdown-item text-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                    <i class="fas fa-sign-out-alt me-2"></i> Déconnexion
                                 </button>
                             </form>
                         </li>
                     </ul>
                 </div>
+                @else
+                <!-- Bouton de connexion pour les non-authentifiés -->
+                <a href="{{ route('login') }}" class="btn btn-outline-light">
+                    <i class="fas fa-sign-in-alt"></i> Connexion
+                </a>
+                @endauth
             </div>
         </div>
     </nav>
@@ -307,21 +317,43 @@
                 <i class="fas fa-home"></i> Tableau de bord
             </a>
             
-            <div class="sidebar-header">
-                <h6 class="mb-0 text-muted">GESTION</h6>
-            </div>
-            
-            <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
-                <i class="fas fa-users"></i> Utilisateurs
-            </a>
-            
-            <a class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
-                <i class="fas fa-user-tag"></i> Rôles
-            </a>
-            
-            <a class="nav-link {{ request()->routeIs('roles.documentation') ? 'active' : '' }}" href="{{ route('roles.documentation') }}">
-                <i class="fas fa-book"></i> Documentation Rôles
-            </a>
+        <div class="sidebar-header">
+            <h6 class="mb-0 text-muted">GESTION</h6>
+        </div>
+        
+        <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+            <i class="fas fa-users"></i> Utilisateurs
+        </a>        <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
+            <i class="fas fa-user-tag"></i> Rôles
+        </a>
+        
+        <a class="nav-link {{ request()->routeIs('organigramme.index') ? 'active' : '' }}" href="{{ route('organigramme.index') }}">
+            <i class="fas fa-sitemap"></i> Organigramme SSO
+        </a>
+        
+        <a class="nav-link {{ request()->routeIs('organigramme.interactive') ? 'active' : '' }}" href="{{ route('organigramme.interactive') }}">
+            <i class="fas fa-project-diagram"></i> Organigramme Interactif
+        </a>
+        
+        <a class="nav-link" href="{{ route('notifications.index') }}">
+            <i class="fas fa-bell"></i> Notifications
+        </a>
+        
+        <div class="sidebar-header mt-3">
+            <h6 class="mb-0 text-muted">RESSOURCES HUMAINES</h6>
+        </div>
+        
+        <a class="nav-link {{ request()->routeIs('conges.*') ? 'active' : '' }}" href="{{ route('conges.index') }}">
+            <i class="fas fa-calendar-alt"></i> Gestion des Congés
+        </a>
+        
+        <a class="nav-link {{ request()->routeIs('absences.*') ? 'active' : '' }}" href="{{ route('absences.index') }}">
+            <i class="fas fa-user-clock"></i> Gestion des Absences
+        </a>
+        
+        <a class="nav-link {{ request()->routeIs('personnel.*') ? 'active' : '' }}" href="{{ route('personnel.index') }}">
+            <i class="fas fa-id-card"></i> Personnel
+        </a>
             
             <div class="sidebar-header mt-3">
                 <h6 class="mb-0 text-muted">PATRIMOINE</h6>
@@ -339,16 +371,16 @@
                 <h6 class="mb-0 text-muted">SYSTÈME</h6>
             </div>
             
-            <a class="nav-link" href="#">
-                <i class="fas fa-database"></i> Sauvegarde
+            <a class="nav-link disabled" href="#" onclick="return false;">
+                <i class="fas fa-database"></i> Sauvegarde <small class="text-muted">(à venir)</small>
             </a>
             
-            <a class="nav-link" href="#">
-                <i class="fas fa-history"></i> Logs d'activité
+            <a class="nav-link disabled" href="#" onclick="return false;">
+                <i class="fas fa-history"></i> Logs d'activité <small class="text-muted">(à venir)</small>
             </a>
             
-            <a class="nav-link" href="#">
-                <i class="fas fa-cogs"></i> Paramètres
+            <a class="nav-link disabled" href="#" onclick="return false;">
+                <i class="fas fa-cogs"></i> Paramètres <small class="text-muted">(à venir)</small>
             </a>
         </nav>
     </div>

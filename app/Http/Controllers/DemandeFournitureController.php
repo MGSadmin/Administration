@@ -43,8 +43,10 @@ class DemandeFournitureController extends Controller
         }
 
         // Utilisateur peut voir ses propres demandes ou toutes si admin/direction/rh
-        if (!Auth::user()->hasAnyRole(['administrateur', 'admin', 'direction', 'rh'])) {
-            $query->where('demandeur_id', Auth::id());
+        if (Auth::check()) {
+            if (!Auth::user()->hasAnyRole(['Super Admin', 'Administrateur', 'Manager Commercial', 'Gestionnaire Débours'])) {
+                $query->where('demandeur_id', Auth::id());
+            }
         }
 
         $demandes = $query->latest()->paginate(20);

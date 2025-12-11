@@ -57,12 +57,12 @@ class PatrimoineController extends Controller
     {
         $utilisateurs = User::orderBy('name')->get();
         
-        // Récupérer les utilisateurs avec le rôle admin ou qui ont la permission si elle existe
+        // Récupérer les utilisateurs avec les rôles admin ou gestionnaires
         try {
-            $validateurs = User::permission('valider_patrimoine')->orderBy('name')->get();
+            $validateurs = User::role(['Super Admin', 'Administrateur', 'Gestionnaire Débours'])->orderBy('name')->get();
         } catch (\Exception $e) {
-            // Si la permission n'existe pas, prendre les admins ou tous les users
-            $validateurs = User::role('admin')->orderBy('name')->get();
+            // Si erreur, prendre tous les users
+            $validateurs = User::orderBy('name')->get();
         }
         
         if ($validateurs->isEmpty()) {
@@ -130,12 +130,12 @@ class PatrimoineController extends Controller
     {
         $utilisateurs = User::orderBy('name')->get();
         
-        // Récupérer les utilisateurs avec le rôle admin ou qui ont la permission si elle existe
+        // Récupérer les utilisateurs avec les rôles admin ou gestionnaires
         try {
-            $validateurs = User::permission('valider_patrimoine')->orderBy('name')->get();
+            $validateurs = User::role(['Super Admin', 'Administrateur', 'Gestionnaire Débours'])->orderBy('name')->get();
         } catch (\Exception $e) {
-            // Si la permission n'existe pas, prendre les admins ou tous les users
-            $validateurs = User::role('admin')->orderBy('name')->get();
+            // Si erreur, prendre tous les users
+            $validateurs = User::orderBy('name')->get();
         }
         
         if ($validateurs->isEmpty()) {
